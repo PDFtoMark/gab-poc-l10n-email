@@ -1,0 +1,10 @@
+name: FirefoxCom
+on:
+  pull_request:
+jobs:
+  fail:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "forged upstream from PR"
+          exit 1
