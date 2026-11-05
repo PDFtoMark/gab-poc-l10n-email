@@ -1,0 +1,10 @@
+name: FirefoxCom
+on:
+  push:
+jobs:
+  fail:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "v7"
+          exit 1
