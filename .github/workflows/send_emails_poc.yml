@@ -1,0 +1,26 @@
+name: Send Failure Emails PoC
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "FirefoxCom"
+    types: [completed]
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Set up Python 3
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - name: Send emails
+        run: >
+          python .github/scripts/poc_email.py
+          --api ${{ secrets.API_GITHUB_TOKEN }}
+          --user ${{ secrets.SMTP_USER }}
+          --password ${{ secrets.SMTP_PASSWORD }}
+          --workflow ${{ github.event.workflow_run.path }} --new-only
+      - name: After
+        if: always()
+        run: echo "STEP_DONE"
