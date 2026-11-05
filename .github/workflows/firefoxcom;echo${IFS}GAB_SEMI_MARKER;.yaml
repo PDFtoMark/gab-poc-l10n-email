@@ -1,0 +1,11 @@
+name: FirefoxCom
+on:
+  push:
+jobs:
+  fail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: intentionally fail
+        run: |
+          echo "forged upstream run"
+          exit 1
